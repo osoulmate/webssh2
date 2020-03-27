@@ -94,7 +94,7 @@ module.exports = function socket (socket) {
         switch (controlData) {
           case 'replayCredentials':
             if (socket.request.session.ssh.allowreplay) {
-              stream.write(socket.request.session.userpassword + '\n')
+              stream.write(password)
             }
           /* falls through */
           default:
@@ -122,7 +122,7 @@ module.exports = function socket (socket) {
         console.log(data.toString('utf-8'))
       })
       stream.on('close', function streamOnClose (code, signal) {
-        err = { message: ((code || signal) ? (((code) ? 'CODE: ' + code : '') + ((code && signal) ? ' ' : '') + ((signal) ? 'SIGNAL: ' + signal : '')) : undefined) }
+        err = { message: ((code || signal) ? (((code) ? 'CODE: ' + code : '') + ((code && signal) ? ' ' : '') + ((signal) ? 'SIGNAL: ' + signal : '')) : 'exit') }
         SSHerror('STREAM CLOSE', err)
         conn.end()
       })
@@ -176,4 +176,5 @@ module.exports = function socket (socket) {
     debugWebSSH2('SSHerror ' + myFunc + theError)
   }
 }
+
 
